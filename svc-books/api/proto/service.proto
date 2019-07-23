@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package books.v1;
+
+service IBook {
+
+    rpc GetBook(GetBookRequest) returns (Book);
+
+    rpc ListBooks(ListBooksRequest) returns (ListBooksResponse);
+
+}
+
+message GetBookRequest {
+    int32 id = 1;
+}
+
+message Book {
+    int32 id = 1;
+    string name = 2;
+    string description = 3;
+    string author = 4;
+    int32 page_count = 5;
+}
+
+message ListBooksRequest {
+    string name = 1;
+}
+
+message ListBooksResponse {
+    repeated Book books = 1;
+}
+
+//protoc --proto_path=svc-books/api/proto --go_out=plugins=grpc:svc-books/api/proto service.proto

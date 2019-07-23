@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package library.v1;
+
+import "google/api/annotations.proto";
+
+service Library {
+
+    rpc ListBooks(ListBooksRequest) returns (ListBooksResponse) {
+        option (google.api.http) = {
+            get: "/books"
+        };
+    };
+
+    rpc GetBook(GetBookRequest) returns (Book) {
+        option (google.api.http) = {
+            get: "/books/{id}"
+        };
+    };
+
+}
+
+message Book {
+    int32 id = 1;
+    string name = 2;
+    string description = 3;
+    string author = 4;
+    int32 page_count = 5;
+}
+
+message ListBooksRequest {
+    string name = 1;
+}
+
+message ListBooksResponse {
+    repeated Book books = 1;
+}
+
+message GetBookRequest {
+    int32 id = 1;
+}
+
+// protoc --proto_path=api-v1-library/api/proto --grpc-gateway_out=logtostderr=true:api-v1-library/api/proto --proto_path=third_party --go_out=plugins=grpc:api-v1-library/api/proto service.proto
